@@ -48,6 +48,21 @@ public class Metas {
         this.metas.addAll(Arrays.stream(newMeta).toList());
     }
 
+    public void add(Meta meta) {
+        this.metas.add(meta);
+    }
+
+    public Metas filterByCCY(String ccy) {
+        Metas tempRats = new Metas();
+        for (Meta meta : this.metas) {
+            if (meta.getTxt().toLowerCase().contains(ccy.toLowerCase()))
+                tempRats.add(meta);
+        }
+        return tempRats;
+    }
+
+
+
     @Override
     public String toString() {
         return "Metas{" +
