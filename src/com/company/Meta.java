@@ -7,14 +7,14 @@ import java.util.Comparator;
 public class Meta implements Serializable
 {
 
-    int r030;
+    long r030;
     String txt;
     double rate;
     String cc;
     String exchangedate;
     private final static long serialVersionUID = 4976987307641598477L;
 
-    public Meta(int r030, String txt, double rate, String cc, String exchangedate) {
+    public Meta(long r030, String txt, double rate, String cc, String exchangedate) {
         this.setR030(r030);
         this.setTxt(txt);
         this.setRate(rate);
@@ -25,11 +25,11 @@ public class Meta implements Serializable
     public Meta() {
 
     }
-    public int getR030() {
+    public long getR030() {
         return r030;
     }
 
-    public void setR030(int r030) {
+    public void setR030(long r030) {
         this.r030 = r030;
     }
 
@@ -67,7 +67,7 @@ public class Meta implements Serializable
 
     public static Comparator<Meta> byr030Asc =Comparator.comparing(o -> o.r030);
     public static Comparator<Meta> byRateAsc = (o1, o2) -> o1.rate > o2.rate ? 1 : o1.rate < o2.rate ? -1 : 0;
-    public static Comparator<Meta> byRateeDesc = (o1, o2) -> o1.rate < o2.rate ? 1 : o1.rate > o2.rate ? -1 : 0;
+    public static Comparator<Meta> byRateDesc = (o1, o2) -> o1.rate < o2.rate ? 1 : o1.rate > o2.rate ? -1 : 0;
     public static Comparator<Meta> byNameAsc = Comparator.comparing(o -> o.txt);
 
     @Override
