@@ -3,6 +3,7 @@ package com.company;
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.concurrent.TimeUnit;
 
 public class JSONGetter extends Thread{
 
@@ -27,6 +28,7 @@ public class JSONGetter extends Thread{
                 BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
                 try {
                     jsonIn = readAll(rd);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

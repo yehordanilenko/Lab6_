@@ -1,14 +1,18 @@
 package com.company;
 
-import java.io.IOException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import java.io.IOException;
+
 public class Main {
 
-    public static void main(String[] args) throws IOException {
-	// https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json
+    public static final int MS_TIMEOUT = 50;
+    public static final int TIMEOUT = 30000;
+
+    public static void main(String[] args) throws IOException, InterruptedException {
+        // https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json
         /*Metas metas = new Metas();
         String quotesStr = metas.loadByURL("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json");
         metas.restoreObject(quotesStr);
@@ -18,16 +22,24 @@ public class Main {
         JSONGetter jsonGetter = new JSONGetter();
         JSONGetter.url = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json";
         jsonGetter.run();
+        int msForWaiting = 0;
+        do {
+            msForWaiting += MS_TIMEOUT;
+            Thread.sleep(MS_TIMEOUT); //milliseconds
 
+        } while (msForWaiting <= TIMEOUT && jsonGetter.jsonIn == "");
+        if (msForWaiting >= TIMEOUT) {
+            System.out.println("Не удалось загрузить данные");
+
+            return;
+        }
+        System.out.println("\nКол-во миллисекунд загрузки данных: \n" + msForWaiting);
         String jsonString = jsonGetter.jsonIn;
 
         Object tempObj = null;
-        try
-        {
+        try {
             tempObj = new JSONParser().parse(jsonString);
-        }
-        catch (org.json.simple.parser.ParseException e)
-        {
+        } catch (org.json.simple.parser.ParseException e) {
             e.printStackTrace();
         }
 
@@ -36,8 +48,7 @@ public class Main {
 
         Metas metas = new Metas();
 
-        for (Object jsonObject : jsonArray)
-        {
+        for (Object jsonObject : jsonArray) {
             JSONObject getMeta = (JSONObject) jsonObject;
             long r030 = (long) getMeta.get("r030");
             String txt = (String) getMeta.get("txt");
@@ -45,7 +56,7 @@ public class Main {
             String cc = (String) getMeta.get("cc");
             String exchangedate = (String) getMeta.get("exchangedate");
 
-            Meta newMeta = new Meta(r030, txt, rate , cc, exchangedate);
+            Meta newMeta = new Meta(r030, txt, rate, cc, exchangedate);
             metas.add(newMeta);
         }
 
